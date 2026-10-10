@@ -128,7 +128,7 @@ Repository URL: https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
 Immutable tag: week03
 
-Commit hash: to be recorded after the Week 3 commit is created
+Commit hash: 95bc6c07a4ccc24341608def3d24e5ab4181b596
 
 Go version / OS: go1.27.1 darwin/arm64 (macOS)
 
