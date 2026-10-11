@@ -176,6 +176,10 @@ Week: Week 4
 
 Repository URL: https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
+Immutable tag: week04
+
+Commit hash: 4f89950e372afeb275a8afcc31206876c1f4248f
+
 ## Commands actually executed
 
 * `go test ./internal/ipc -count=1`
