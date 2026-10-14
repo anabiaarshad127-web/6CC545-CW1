@@ -227,7 +227,7 @@ Repository URL: https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
 Immutable tag: week05
 
-Commit hash: a6bf9f87691a5c249a27e3d532cc4385b5bbb575
+Commit hash: 6e5ae6974170ae83113d130813bf301543582b3a
 
 Go version / OS: go1.27.1 darwin/arm64 (macOS)
 
