@@ -4,7 +4,7 @@
 
 This project is a cumulative Go application developed for the 6CC545 coursework. It demonstrates a basic distributed service with two local nodes.
 
-The implementation currently covers the first four weekly checkpoints: node startup, REST status updates, peer and file metadata, and TCP/UDP message communication.
+The implementation covers five weekly checkpoints: node startup, REST status updates, peer and file metadata, TCP/UDP message communication, and gRPC-based remote file metadata requests.
 
 ## Requirements
 
@@ -48,9 +48,11 @@ The launch scripts start the nodes in the foreground. Press `Ctrl+C` in each win
 | HTTP | `127.0.0.1:8081` | `127.0.0.1:8082` |
 | TCP | `127.0.0.1:8181` | `127.0.0.1:8182` |
 | UDP | `127.0.0.1:8281` | `127.0.0.1:8282` |
+| gRPC | `127.0.0.1:9091` | `127.0.0.1:9092` |
 
 ## Available features
 
+- `GET /v1/remote-files?peer_id=node-b` — retrieves file metadata from a registered peer through gRPC.
 - `GET /healthz` — checks whether a node is healthy.
 - `GET /v1/status` — reads the current node status.
 - `POST /v1/status` — validates and updates the node status.
@@ -93,7 +95,7 @@ The nodes use loopback addresses and synthetic coursework data. The file catalog
 
 This implementation does not provide TLS or authentication. Keep the services on loopback addresses and do not expose them to other networks.
 
-The gRPC file-metadata request remains to be completed and verified for Week 5.
+Week 5 adds gRPC-based remote file metadata requests. The service uses Protocol Buffers and gRPC, and the remote request and error cases are recorded in the Week 5 evidence.
 
 ## Evidence and version control
 
