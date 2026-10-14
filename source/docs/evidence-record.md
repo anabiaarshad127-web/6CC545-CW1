@@ -225,9 +225,9 @@ Week: Week 5
 
 Repository URL: https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
-Immutable tag: To be added after the Week 5 commit.
+Immutable tag: week05
 
-Commit hash: To be added after the Week 5 commit.
+Commit hash: a6bf9f87691a5c249a27e3d532cc4385b5bbb575
 
 Go version / OS: go1.27.1 darwin/arm64 (macOS)
 
