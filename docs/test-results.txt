@@ -1,0 +1,45 @@
+6CC545 CW1 — Test Results
+=========================
+
+Environment
+-----------
+Go version: go1.27.1 darwin/arm64
+Operating system: macOS
+Go module directory: source/
+
+1. Build
+--------
+Command: go build ./...
+Observed result: Completed without errors.
+Status: PASS
+
+2. Automated tests
+------------------
+Command: go test ./... -count=1 -timeout 30s
+Observed result: All packages containing tests reported "ok".
+Packages without test files were reported as "[no test files]".
+Status: PASS
+
+3. Race detector
+----------------
+Command: go test -race ./... -count=1 -timeout 30s
+Observed result: All packages containing tests reported "ok".
+No race detector errors were displayed.
+Status: PASS
+
+4. Static analysis
+------------------
+Command: go vet ./...
+Observed result: Command completed without diagnostic output.
+Status: PASS
+
+5. Scope and limitations
+------------------------
+These results cover the Go build, automated tests, race detection and
+go vet checks run from the source directory.
+
+The output recorded here does not establish that the complete two-node
+integration workflow has passed. That workflow must be checked separately.
+
+Results in this document reflect the commands executed during this
+verification session. Repeat the checks if the source code changes.
