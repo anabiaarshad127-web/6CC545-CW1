@@ -26,20 +26,26 @@ If the repository has already been cloned, open a terminal in the existing proje
 - `source/` — Go application source code, tests, scripts and test data.
 - `repository.txt` — Repository information and final checkpoint reference.
 - `cw1-commentary.pdf` — Technical commentary for the coursework.
-- `evidence-record.md` — Coursework evidence and checkpoint records.
 - `implementation-log.md` — Development decisions, testing and AI-use records.
+- `evidence/week01/evidence-record.md` — Week 1 checkpoint evidence.
+- `evidence/week02/evidence-record.md` — Week 2 checkpoint evidence.
+- `evidence/week03/evidence-record.md` — Week 3 checkpoint evidence.
+- `evidence/week04/evidence-record.md` — Week 4 checkpoint evidence.
+- `evidence/week05/evidence-record.md` — Week 5 checkpoint evidence.
+- `evidence/final-integration/evidence-record.md` — Final integration evidence.
+- `docs/architecture.png` — Architecture diagram.
 - `docs/api-and-protocols.md` — HTTP API, messaging and gRPC documentation.
 - `docs/test-results.txt` — Recorded test results.
 - `source/docs/week01-design-note.md` — Week 1 design note.
 - `source/docs/week03-architecture.md` — Week 3 architecture documentation.
 
-Check that all assessment-required files, including the final architecture diagram and evidence for the final integration, are present in the submission package before submitting.
+Check that all assessment-required files are present in the submission package before submitting.
 
 ## Prerequisites
 
 For building and testing, you need:
 
-- Go 1.23 or later.
+- Go 1.25.0 or a compatible later version.
 - A terminal with shell support.
 - A supported operating system.
 
@@ -295,8 +301,9 @@ See the following files for more information:
 
 - `docs/api-and-protocols.md` — API and protocol documentation.
 - `docs/test-results.txt` — Recorded test results.
-- `evidence-record.md` — Coursework evidence.
+- `docs/architecture.png` — Architecture diagram.
+- `evidence/week01/` to `evidence/week05/` — Evidence records for the weekly checkpoints.
+- `evidence/final-integration/` — Evidence for final integration.
 - `implementation-log.md` — Implementation history and AI-use disclosure.
 - `source/docs/week01-design-note.md` — Week 1 design note.
 - `source/docs/week03-architecture.md` — Week 3 architecture documentation.
-
