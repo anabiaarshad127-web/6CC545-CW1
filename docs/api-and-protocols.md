@@ -111,7 +111,7 @@ The JSON decoder rejects unknown fields and additional JSON values. However, Go'
 
 ### Verification
 
-The Week 2 evidence should record the REST tests, body-size boundary test, full Go test suite and `go vet` results that were actually observed. The existing evidence record describes successful GET and POST requests, a malformed POST returning HTTP 400, and a subsequent GET confirming that the status remained `degraded`. These claims should be retained only if the corresponding recorded test evidence supports them.
+The Week 2 REST tests cover GET and POST requests, JSON content types, malformed JSON, unknown fields, invalid status values, multiple JSON values, non-object JSON input, oversized request bodies and unsupported methods. The recorded test suite passed. Manual checks recorded a successful GET, a valid POST changing the status to `degraded`, and a malformed POST returning HTTP 400 without changing the stored status. These results demonstrate the tested REST behaviour; they do not demonstrate authentication or secure remote communication.
 
 ---
 
