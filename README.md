@@ -2,76 +2,118 @@
 
 ## Project overview
 
-This project is a cumulative Go application developed for the 6CC545 coursework. It demonstrates a distributed service using two local nodes.
+This repository contains my cumulative coursework project for the 6CC545 Distributed Applications and Web Services module. The application has been developed through five weekly checkpoints.
 
-The five weekly checkpoints cover node startup and health checks, REST status updates, peer and file metadata, TCP and UDP messaging, and gRPC-based remote file metadata requests.
+The project includes node configuration, HTTP health and status endpoints, peer registration, file metadata catalogues, TCP and UDP messaging, and gRPC communication using Protocol Buffers to request metadata from a remote node.
+
+This project is a coursework prototype for demonstrating distributed application concepts. It exchanges file metadata rather than transferring actual file contents.
+
+## Repository
+
+GitHub repository: https://github.com/anabiaarshad127-web/6CC545-CW1
+
+To clone the repository, run:
+
+```bash
+git clone https://github.com/anabiaarshad127-web/6CC545-CW1.git
+cd 6CC545-CW1
+```
+
+If the repository has already been cloned, open a terminal in the existing project directory.
 
 ## Project structure
 
-- `source/` — Go application source code, tests, configuration and launch scripts.
-- `repository.txt` — GitHub repository URL.
-- `implementation-log.md` — development tasks, design decisions, test results and AI-use disclosures.
-- `evidence/` — evidence records for the five weekly checkpoints and final integration.
-- `docs/` — architecture, API and protocol documentation, and test results.
-- `cw1-commentary.pdf` — coursework commentary.
+- `source/` — Go application source code, tests, scripts and test data.
+- `repository.txt` — Repository information and final checkpoint reference.
+- `cw1-commentary.pdf` — Technical commentary for the coursework.
+- `evidence-record.md` — Coursework evidence and checkpoint records.
+- `implementation-log.md` — Development decisions, testing and AI-use records.
+- `docs/api-and-protocols.md` — HTTP API, messaging and gRPC documentation.
+- `docs/test-results.txt` — Recorded test results.
+- `source/docs/week01-design-note.md` — Week 1 design note.
+- `source/docs/week03-architecture.md` — Week 3 architecture documentation.
 
-Some submission files may still be under preparation. Check that the final package contains all required files before submission.
+Check that all assessment-required files, including the final architecture diagram and evidence for the final integration, are present in the submission package before submitting.
 
-## Requirements
+## Prerequisites
 
-- Go, using a version compatible with the project.
-- Git.
-- macOS or Linux with a Bash-compatible shell, or Windows with a suitable shell.
+For building and testing, you need:
+
+- Go 1.23 or later.
+- A terminal with shell support.
+- A supported operating system.
+
+The project has been tested on macOS. The recorded environment and results are described in the coursework evidence.
+
+The generated Protocol Buffers files are included in the project. The `protoc` compiler and Go protobuf generators are required only if the generated files need to be recreated.
 
 ## Build and test
 
-Open Terminal and change to the Go module directory:
+From the repository root, enter the Go module directory:
 
 ```bash
 cd source
 ```
 
-Run the following commands separately:
+Build the application:
 
 ```bash
 go build ./...
 ```
 
+Run the test suite:
+
 ```bash
 go test ./... -count=1 -timeout 30s
 ```
+
+Run the tests with the race detector:
 
 ```bash
 go test -race ./... -count=1 -timeout 30s
 ```
 
+Check the code:
+
 ```bash
 go vet ./...
 ```
 
-Record the actual results of each command in the test documentation. Do not describe a test as passed unless it has been run successfully.
+Verify the Go modules:
 
-## Starting the nodes
+```bash
+go mod verify
+```
 
-On macOS or Linux, open two separate Terminal windows.
+Run the project check script:
+
+```bash
+sh scripts/check.sh
+```
+
+The check script runs the build, tests and static checks specified in the script. It does not replace the separate race-detector and module-verification commands.
+
+Refer to `docs/test-results.txt` for recorded results. Run the commands again against the checkout being submitted if you need to verify its current state.
+
+## Running the nodes
+
+Start each node in a separate terminal. Run the commands below from the repository root.
 
 **Terminal 1 — Node A**
 
 ```bash
-cd ~/Downloads/6CC545-CW1/source
-sh scripts/run-node-a.sh
+sh source/scripts/run-node-a.sh
 ```
 
 **Terminal 2 — Node B**
 
 ```bash
-cd ~/Downloads/6CC545-CW1/source
-sh scripts/run-node-b.sh
+sh source/scripts/run-node-b.sh
 ```
 
-The scripts run the nodes in the foreground. Press `Ctrl+C` in each terminal to stop its node.
+The scripts build and start the nodes using their configured settings. Keep both terminals open while testing.
 
-## Local service addresses
+Both nodes use loopback addresses for local testing.
 
 | Service | Node A | Node B |
 |---|---|---|
@@ -80,70 +122,181 @@ The scripts run the nodes in the foreground. Press `Ctrl+C` in each terminal to 
 | UDP | `127.0.0.1:8281` | `127.0.0.1:8282` |
 | gRPC | `127.0.0.1:9091` | `127.0.0.1:9092` |
 
-## Available features
+## Checking node health
 
-- `GET /healthz` — checks node health.
-- `GET /v1/status` — retrieves the current node status.
-- `POST /v1/status` — validates and updates the node status.
-- Peer endpoints — register and inspect peer metadata.
-- `GET /v1/files` — lists file metadata in the local catalogue.
-- `GET /v1/messages` — inspects messages received by a node.
-- TCP and UDP messaging — exchanges messages between nodes.
-- `GET /v1/remote-files?peer_id=node-b` — requests remote file metadata through gRPC.
+With the nodes running, open a third terminal and enter the source directory:
 
-The REST endpoints use JSON. The gRPC service uses Protocol Buffers.
+```bash
+cd /path/to/6CC545-CW1/source
+```
 
-## Example checks
+Replace `/path/to/6CC545-CW1` with the actual location of your project.
 
-With both nodes running, open a third Terminal window and run these commands from the `source` directory:
+Check Node A:
+
+```bash
+go run ./cmd/request -url http://127.0.0.1:8081/healthz
+```
+
+Check Node B:
+
+```bash
+go run ./cmd/request -url http://127.0.0.1:8082/healthz
+```
+
+A successful health request returns HTTP 200 and a JSON response containing the node identity and an `ok` status.
+
+## HTTP endpoints
+
+The application provides the following endpoints:
+
+| Endpoint | Purpose |
+|---|---|
+| `/healthz` | Checks node health and reports its identity. |
+| `/v1/status` | Reads or updates the simulated node status. |
+| `/v1/files` | Lists local file metadata. |
+| `/v1/peers` | Lists or registers peers. |
+| `/v1/messages` | Reads messages accepted by the node. |
+| `/v1/remote-files` | Requests file metadata from a registered peer using gRPC. |
+
+Check Node A's health:
 
 ```bash
 curl -i http://127.0.0.1:8081/healthz
 ```
 
-```bash
-curl -i http://127.0.0.1:8082/healthz
-```
-
-Inspect the local file catalogues:
+List local file metadata:
 
 ```bash
 curl -i http://127.0.0.1:8081/v1/files
 ```
 
-```bash
-curl -i http://127.0.0.1:8082/v1/files
-```
-
-Inspect the message inboxes:
+Read the current status:
 
 ```bash
-curl -i http://127.0.0.1:8081/v1/messages
+curl -i http://127.0.0.1:8081/v1/status
 ```
+
+Update the status to degraded:
+
+```bash
+curl -i -X POST \
+  http://127.0.0.1:8081/v1/status \
+  -H 'Content-Type: application/json' \
+  --data '{"status":"degraded"}'
+```
+
+The status endpoint accepts `healthy` and `degraded`. Invalid requests are rejected according to the API contract in `docs/api-and-protocols.md`.
+
+## Peer registration and remote metadata
+
+Run these commands from the `source/` directory while both nodes are running.
+
+Register Node B with Node A:
+
+```bash
+curl -i -X POST \
+  http://127.0.0.1:8081/v1/peers \
+  -H 'Content-Type: application/json' \
+  --data-binary @testdata/peer-b.json
+```
+
+A successful registration returns HTTP 201.
+
+List registered peers:
+
+```bash
+curl -i http://127.0.0.1:8081/v1/peers
+```
+
+Request remote file metadata:
+
+```bash
+curl -i \
+  'http://127.0.0.1:8081/v1/remote-files?peer_id=node-b'
+```
+
+When the peer is registered and its gRPC service is available, the remote metadata request returns HTTP 200. The recorded test data includes filenames such as `diagram.txt` and `notes.txt`.
+
+Registering a duplicate peer returns HTTP 409 with a `duplicate_peer` error. If the remote gRPC service is unavailable, the request may return HTTP 503.
+
+## TCP and UDP messaging
+
+The project includes an IPC client for testing TCP and UDP communication. Run the following command from the `source/` directory while Node B is running.
+
+Send a TCP message to Node B:
+
+```bash
+go run ./cmd/ipcclient \
+  -network tcp \
+  -target 127.0.0.1:8182 \
+  -id node-a \
+  -text "hello from node-a" \
+  -request demo-tcp
+```
+
+For UDP, change `-network tcp` to `-network udp` and use a different request ID.
+
+The client waits for an acknowledgement. Successful communication depends on the target node being available and reachable. UDP does not guarantee delivery or ordering.
+
+Read messages accepted by Node B:
 
 ```bash
 curl -i http://127.0.0.1:8082/v1/messages
 ```
 
-The `cmd/ipcclient` program can send TCP or UDP messages. For example, send a TCP message from Node A to Node B:
+The message inbox keeps a limited recent history in memory. Messages are not stored permanently.
+
+## Regenerating Protocol Buffers files
+
+Regenerate the Go bindings only if the Protocol Buffers definitions have changed and the generated files need updating.
+
+The generation script is located at `source/scripts/generate.sh`. It requires `protoc` and the relevant Go generators to be available as specified by the project.
+
+From the repository root, run:
 
 ```bash
-go run ./cmd/ipcclient -network tcp -target 127.0.0.1:8182 -id node-a -text "hello over TCP from A to B" -request tcp-a-b-1
+cd source
+sh scripts/generate.sh
 ```
 
-Check Node B's inbox to inspect the received message.
+Review any generated changes and run the build and test commands afterwards. Regeneration is not necessary for normal application use.
 
-## Data and limitations
+## Troubleshooting
 
-The nodes use loopback addresses and synthetic coursework data. The file catalogue stores metadata rather than transferring file contents. Peer information is stored locally, and automatic peer discovery is not provided.
+- **A port is already in use:** Check whether another node process is running and stop it before restarting.
+- **A health request fails:** Confirm that the relevant node is running and that the correct HTTP port is being used.
+- **Remote metadata returns HTTP 503:** Check that the peer is registered and its gRPC service is available.
+- **Peer registration returns HTTP 409:** The peer may already be registered. Check the output of `GET /v1/peers`.
+- **The generation script cannot find `protoc`:** Install the required Protocol Buffers compiler and ensure it is available on your `PATH`.
+- **A test-data file cannot be found:** Check that the command is being run from the `source/` directory when it uses a relative path.
 
-The application does not provide TLS or authentication. Keep the services on loopback addresses and do not expose them to other networks.
+## Cleanup
 
-## Evidence and version control
+To stop the nodes, press `Ctrl+C` in Terminal 1 and Terminal 2.
 
-The repository maintains Git checkpoint tags for Weeks 1–5. The final submission should also include a `final-cw1` tag after final integration checks have been completed.
+If a port remains occupied, check for a node process that has not stopped before starting the application again. Do not terminate unrelated processes.
 
-The submission evidence should record the relevant tag, commit hash, commands actually executed, observed results, failure diagnosis, design decisions, limitations, and sources or AI assistance.
+## Safety and limitations
 
-Before submission, check that the required evidence records, implementation log, architecture document, API and protocol documentation, test results, commentary PDF, and final submission archive are present.
+- The supplied node scripts bind services to loopback addresses for local testing. They are not configured for public deployment.
+- TLS and authentication are not implemented.
+- Peer registration and file metadata catalogues are held in memory and are not persistent.
+- The message inbox is held in memory and is cleared when the node stops.
+- Remote file requests return metadata rather than actual file contents.
+- Remote metadata requests depend on the selected peer and its gRPC service being available.
+- The `requester_id` in a gRPC request does not prove the requester's identity.
+- UDP delivery is not guaranteed.
+- This project is a coursework prototype and should not be treated as a production-ready file-sharing service.
+
+## Further documentation
+
+See the following files for more information:
+
+- `docs/api-and-protocols.md` — API and protocol documentation.
+- `docs/test-results.txt` — Recorded test results.
+- `evidence-record.md` — Coursework evidence.
+- `implementation-log.md` — Implementation history and AI-use disclosure.
+- `source/docs/week01-design-note.md` — Week 1 design note.
+- `source/docs/week03-architecture.md` — Week 3 architecture documentation.
 
