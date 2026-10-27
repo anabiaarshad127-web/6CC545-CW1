@@ -12,39 +12,38 @@
 
 **Go version / OS:** `go1.27.1 darwin/arm64` (macOS)
 
+
 ## Commands actually executed
+
+The following checks were run against a temporary copy of the immutable `week01` Git snapshot.
 
 - `go version`
 - `go test ./internal/config -run "^TestWeek01_" -v`
 - `go test ./... -count=1 -timeout 20s`
 - `go vet ./...`
-- `sh scripts/run-node-a.sh`
-- `go run ./cmd/request -url http://127.0.0.1:8081/healthz`
-- `sh scripts/run-node-b.sh`
-- `go run ./cmd/request -url http://127.0.0.1:8082/healthz`
-- `sh scripts/run-node-a.sh` while Node A was already running
-- `go run ./cmd/request -url http://127.0.0.1:8081/healthz` while the original Node A was running
-- `go run ./cmd/request -url http://127.0.0.1:8081/healthz` after Node A was stopped
+- `sh scripts/run-node-a.sh` (started in the background for integration testing)
+- `sh scripts/run-node-b.sh` (started in the background for integration testing)
+- `curl -i --max-time 5 http://127.0.0.1:8081/healthz`
+- `curl -i --max-time 5 http://127.0.0.1:8082/healthz`
+- `sh scripts/run-node-a.sh` while the first Node A was running, to test the occupied-port failure
+- `curl -i --max-time 5 http://127.0.0.1:8081/healthz` after the duplicate startup failed
+- `curl -i --max-time 5 http://127.0.0.1:8081/healthz` after stopping the test nodes
 
-## Observed results (do not paste expected examples as results)
+Earlier shell history also contains `go test ./... -count=1 -timeout 20s`, `go vet ./...`, and the node startup scripts. The historical results below should be distinguished from the fresh verification results.
 
-The Week 1 configuration tests passed, including `TestWeek01_Config`, `TestWeek01_UnknownFlag` and `TestWeek01_InvalidOptionalAddress`.
+## Observed results
 
-The full test suite passed with:
+**Fresh verification against the `week01` snapshot:**
 
-`go test ./... -count=1 -timeout 20s`
+The Go version was `go1.27.1 darwin/arm64`.
 
-`go vet ./...` also completed successfully with no reported problems.
+The three configuration tests passed: `TestWeek01_Config`, `TestWeek01_UnknownFlag` and `TestWeek01_InvalidOptionalAddress`. The full test suite passed with `go test ./... -count=1 -timeout 20s`. `go vet ./...` completed without diagnostic output.
 
-Node A started successfully on `127.0.0.1:8081`. A request to `/healthz` returned HTTP 200 and the JSON response:
+Node A returned HTTP 200 from `/healthz` with `{"node_id":"node-a","status":"ok"}`. Node B returned HTTP 200 with `{"node_id":"node-b","status":"ok"}`.
 
-`{"node_id":"node-a","status":"ok"}`
+Starting another Node A while the first was running failed with exit code `1` and an address-in-use error. The original Node A continued returning HTTP 200. After the test nodes were stopped, a further request to port 8081 failed to connect with curl exit code `7`, confirming that the test listener was no longer accepting connections.
 
-Node B started successfully on `127.0.0.1:8082`. A request to `/healthz` returned HTTP 200 and:
-
-`{"node_id":"node-b","status":"ok"}`
-
-After Node A was stopped, a request to port 8081 returned `connection refused`, showing that the HTTP listener was no longer running.
+These fresh checks establish the behaviour of the code at the `week01` tag in the current environment. They do not, by themselves, establish the exact results observed on the original checkpoint date.
 
 ## Failure case and diagnosis
 
