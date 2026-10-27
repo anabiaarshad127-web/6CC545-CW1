@@ -11,10 +11,10 @@ The following verification commands passed:
 ```bash
 go build ./...
 go test ./... -count=1 -timeout 30s
-go test -race ./... -count=1 -timeout 60s
+go test -race ./... -count=1 -timeout 30s
 go vet ./...
 ```
 
 The application uses loopback addresses and insecure gRPC transport for this local coursework demonstration. It does not provide TLS or authentication and should not be exposed to an untrusted network.
 
-The dependency versions are compatibility choices for this project, not a claim that they are the newest releases or approved for production use. Keep generated bindings, `go.mod`, and `go.sum` under version control. Do not commit tool binaries or dependency caches.
+The dependency versions are compatibility choices for this project, not a claim that they are the newest releases or approved for production use. Generated bindings, `go.mod`, and `go.sum` are kept under version control. Tool binaries and dependency caches are not committed.
