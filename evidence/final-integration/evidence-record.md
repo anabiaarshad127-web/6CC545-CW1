@@ -10,10 +10,10 @@ final-integration
 https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
 ## Immutable tag
-Pending creation and verification of the final `final-cw1` tag.
+`final-cw1`.
 
 ## Commit hash
-Pending verification against the commit referenced by `final-cw1`.
+`a2ed3558777cfd884bb7235ce23c65ed3e0417e0` (the verified integration commit).
 
 ## Go version / OS
 Go `go1.27.1`, macOS `darwin/arm64`.

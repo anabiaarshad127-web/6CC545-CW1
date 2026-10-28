@@ -1,5 +1,5 @@
 Repository URL: https://github.com/anabiaarshad127-web/6CC545-CW1.git
 
-Final tag: Pending creation and verification of `final-cw1`
+Final tag: final-cw1
 
-Final commit hash: Pending final integration and Git verification
+Final commit hash: a2ed3558777cfd884bb7235ce23c65ed3e0417e0
