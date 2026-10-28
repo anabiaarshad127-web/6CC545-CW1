@@ -48,6 +48,12 @@ Both inbox endpoints returned HTTP `200 OK`. Node A's inbox contained the TCP an
 
 These live checks were performed on 27 October 2026 against a temporary copy of the immutable `week04` snapshot. They do not establish that the same checks were performed on the original checkpoint date.
 
+## Failure case and diagnosis
+
+The Week 4 failure tests cover oversized TCP frames, malformed UDP messages, oversized UDP datagrams, and incomplete TCP frames that time out. These tests check that invalid or incomplete messages are rejected or dropped without changing the inbox. They also check that the network servers shut down within the expected timeout. This helps prevent invalid messages from being accepted and ensures that incomplete TCP communication does not produce a successful acknowledgement.
+
+The tests use local network connections and check the results programmatically. Their results should be confirmed by running the Week 4 IPC tests against the immutable `week04` snapshot.
+
 ## Design decision and alternative
 
 I separated the TCP and UDP communication functions into the `internal/ipc` package. TCP uses message framing so the receiver can identify complete messages, while UDP processes individual datagrams. The protocol validates messages and applies size limits. Each node stores received messages in an inbox, which can be inspected through the HTTP `/v1/messages` endpoint.

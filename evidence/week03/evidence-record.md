@@ -37,6 +37,10 @@ In a clean peer-registration test, Node A started successfully and logged that i
 
 These checks were performed on 27 October 2026 against a temporary copy of the immutable `week03` snapshot. They verify the checkpoint code as tested on that date; they do not establish that the same commands were run on the original checkpoint date.
 
+## Failure case and diagnosis
+
+I submitted the same peer-registration request twice to Node A. The first request returned HTTP 201 Created, while the repeated request returned HTTP 409 Conflict with `{"error":"duplicate_peer"}`. This showed that the registry rejected the duplicate registration instead of accepting the same peer twice. The observed response identified the cause of the rejected request as a duplicate peer ID.
+
 ## Design decision and alternative
 
 I separated peer and file metadata models from the registry, catalogue, and HTTP handlers. This makes the components easier to test independently. A mutex protects shared registry state, and snapshots return copies rather than exposing the internal collections. The file catalogue validates replacement data before updating its stored contents.
