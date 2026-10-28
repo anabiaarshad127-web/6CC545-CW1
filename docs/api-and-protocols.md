@@ -305,7 +305,7 @@ An empty file list can be a valid response. It should not automatically be treat
 
 The `requester_id` field is an unverified claim and does not establish the requester's identity. Similarly, the returned `node_id` is not proof of the server's identity. Authentication requires additional mechanisms that are outside this prototype's demonstrated capabilities.
 
-The HTTP remote-file endpoint translates remote-call outcomes into HTTP responses. The project evidence describes HTTP 503 for an unavailable remote service and HTTP 504 for a deadline or timeout. Other mappings, including cancellation and invalid requests, should be documented according to the submitted handler and its tests.
+The HTTP remote-file endpoint translates remote-call outcomes into HTTP responses: HTTP 400 for an invalid remote request, HTTP 502 for other remote-call failures, HTTP 503 when the remote service is unavailable, and HTTP 504 when the remote call times out or is cancelled. A missing peer returns HTTP 404.
 
 The prototype uses local coursework configuration and does not provide TLS or authentication. It should not be presented as secure communication for an untrusted network.
 
