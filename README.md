@@ -130,7 +130,7 @@ Both nodes use loopback addresses for local testing.
 
 ## Checking node health
 
-With the nodes running, open a third terminal and enter the source directory:
+With both nodes running, open a third terminal, navigate to your cloned repository, and enter the `source/` directory. Replace the example path below with the actual location of your repository.
 
 ```bash
 cd /path/to/6CC545-CW1/source
