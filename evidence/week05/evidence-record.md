@@ -51,7 +51,9 @@ These live results were obtained during the later verification session using a t
 
 ## Failure case and diagnosis
 
-The live verification recorded successful peer registration and a successful remote-file metadata request. However, the evidence collected here does not record a failed gRPC request or an unavailable peer. Therefore, a specific remote-service failure cannot be confirmed from these results. An additional failure test should be run against the Week 5 snapshot to verify how the application responds when remote metadata cannot be retrieved.
+The Week 5 remote-file tests passed against a temporary archive of the immutable `week05` snapshot. `TestWeek05_Unavailable` confirmed that a request to an unavailable gRPC peer returned an error with status `Unavailable` or `DeadlineExceeded`, within the test's two-second limit. `TestWeek05_Cancelled` confirmed that a cancelled request returned the `Canceled` status. The remote-list test also passed, and an empty requester ID was rejected with `InvalidArgument`.
+
+The HTTP handler maps an unavailable remote service to HTTP 503 with the `remote_unavailable` error and a deadline-exceeded request to HTTP 504 with the `remote_timeout` error. However, the tests reported here do not directly verify those HTTP responses for an unavailable remote service. Therefore, the gRPC failure handling is verified, but a separate live HTTP failure check would be needed to claim that the HTTP 503 response was directly observed.
 
 ## Design decision and alternative
 

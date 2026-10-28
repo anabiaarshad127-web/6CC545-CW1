@@ -50,9 +50,9 @@ These live checks were performed on 27 October 2026 against a temporary copy of 
 
 ## Failure case and diagnosis
 
-The Week 4 failure tests cover oversized TCP frames, malformed UDP messages, oversized UDP datagrams, and incomplete TCP frames that time out. These tests check that invalid or incomplete messages are rejected or dropped without changing the inbox. They also check that the network servers shut down within the expected timeout. This helps prevent invalid messages from being accepted and ensures that incomplete TCP communication does not produce a successful acknowledgement.
+The Week 4 failure tests cover oversized TCP frames, malformed UDP messages, oversized UDP datagrams, and incomplete TCP frames that time out. They also check client cancellation and whether the network servers shut down within the expected timeout.
 
-The tests use local network connections and check the results programmatically. Their results should be confirmed by running the Week 4 IPC tests against the immutable `week04` snapshot.
+I ran the Week 4 IPC tests against a temporary archive of the immutable `week04` snapshot. All tests passed, including the tests for oversized TCP frames, malformed and oversized UDP messages, incomplete TCP frames, cancellation, and server shutdown. The results confirmed that these failure cases were handled as expected by the checkpoint code.
 
 ## Design decision and alternative
 
