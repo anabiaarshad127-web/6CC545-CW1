@@ -65,6 +65,4 @@ The Week 1 implementation only provides the basic node foundation and HTTP healt
 
 ## Sources and AI-use disclosure
 
-**Sources used:** The 6CC545 CW1 Assessment Specification and the module Start Here / Week 1 guidance.
-
-**AI assistance:** ChatGPT was used to explain the assessment requirements, troubleshoot Go and Git commands, suggest tests, and help structure the evidence. I ran and checked the commands and results myself and reviewed the submitted work.
+ I have used the official Go documentation for command-line flags, HTTP servers and graceful shutdown. I have used AI to provide me with some support.

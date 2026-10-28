@@ -65,6 +65,4 @@ The service returns file metadata rather than file contents. The local coursewor
 
 ## Sources and AI-use disclosure
 
-**Sources used:** The 6CC545 CW1 Assessment Specification, module guidance, and the project's supplied source code and test data.
-
-**AI assistance:** ChatGPT helped explain requirements, troubleshoot commands, and organise the documentation. I ran the tests and live requests and checked their results myself.
+I have consulted the official Protocol Buffers documentation and gRPC guidance on deadlines. I have also got partial support from artificial intelligence.

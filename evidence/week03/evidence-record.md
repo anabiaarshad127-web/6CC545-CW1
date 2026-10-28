@@ -53,6 +53,4 @@ The catalogue stores file metadata rather than transferring file contents. The p
 
 ## Sources and AI-use disclosure
 
-**Sources used:** The 6CC545 CW1 Assessment Specification and module guidance.
-
-**AI assistance:** ChatGPT helped explain requirements, troubleshoot commands, and organise the documentation. I ran the listed tests and HTTP requests and checked their observed results myself.
+ I have consulted the Go documentation on concurrency and the Go race detector. I have also got partial support. from AI.

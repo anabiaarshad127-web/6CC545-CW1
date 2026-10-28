@@ -66,6 +66,4 @@ The demonstration uses loopback addresses on one machine. The service log states
 
 ## Sources and AI-use disclosure
 
-**Sources used:** The 6CC545 CW1 Assessment Specification and module guidance.
-
-**AI assistance:** ChatGPT helped explain requirements, troubleshoot terminal commands, and organise the evidence record. I ran the verification commands and client requests and checked their actual results myself.
+I have consulted RFC 9293 for TCP and RFC 768 for UDP. I have received partial help from artificial intelligence. 

@@ -57,6 +57,4 @@ This checkpoint implements the REST status resource. It does not yet demonstrate
 
 ## Sources and AI-use disclosure
 
-**Sources used:** The 6CC545 CW1 Assessment Specification and module guidance.
-
-**AI assistance:** ChatGPT helped explain the requirements, troubleshoot commands and organise the evidence. I ran the tests and HTTP requests and checked the results myself.
+ I have consulted RFC 9110 for HTTP semantics and the OWASP REST Security Cheat Sheet for API security guidance. AI also provided me with partial support when reviewing this week's work.
