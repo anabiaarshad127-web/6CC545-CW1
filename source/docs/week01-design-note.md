@@ -2,14 +2,10 @@
 
 ## Purpose
 
-The aim of Week 1 is to create the basic node for the distributed application. The node provides a health endpoint so that its availability can be checked.
+Week 1 establishes the basic node for the distributed application. Each node has its own identity and configuration. The `/healthz` endpoint allows a client to check whether the node is responding.
 
-## Design
+## Design decisions
 
-The node uses Go and provides an HTTP `/healthz` endpoint. The endpoint allows a client to check whether the node is responding. The node address is configurable, which allows different node instances to use different addresses and ports during local testing.
+The node ID is separate from its HTTP address because identity describes the participant, while the address tells a client where to connect. Configuration is validated before the server starts so invalid settings can be rejected early. The application owns the HTTP listener and uses a bounded shutdown timeout to help the node stop cleanly.
 
-The application also supports controlled shutdown so that its lifecycle can be managed when it is stopped. A shutdown timeout helps prevent the application from waiting indefinitely during shutdown.
-
-## Limitations
-
-At this stage, the health endpoint only checks the node's basic availability. It does not prove that peer communication, remote file access or the complete distributed application is working. These features require additional implementation and testing in later weeks.
+The health endpoint returns the node ID and an `ok` status for GET requests. However, a successful response only shows that the node is responding. It does not prove that another node is reachable, remote files can be accessed, or the complete distributed application is working.
